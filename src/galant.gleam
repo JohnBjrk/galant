@@ -206,17 +206,17 @@ pub fn open() {
   []
 }
 
-/// Style the text in black
+// Style the text in black
 pub fn black(styled_text: List(StyledTextPart), text: String) {
   [Black(text), ..styled_text]
 }
 
-/// Style the background of the text in black
+// Style the background of the text in black
 pub fn bg_black(styled_text: List(StyledTextPart), text: String) {
   [BlackBg(text), ..styled_text]
 }
 
-/// Use black for subsequent pars of the styling sequence
+// Use black for subsequent pars of the styling sequence
 pub fn start_black(styled_text: List(StyledTextPart)) {
   [StartBlack, ..styled_text]
 }
