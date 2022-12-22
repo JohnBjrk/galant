@@ -14,7 +14,7 @@ import gleam/erlang.{start_arguments}
 pub fn main() {
   case start_arguments() {
     [] -> gleeunit.main()
-    ["demo"] -> glow_test()
+    ["demo"] -> galant_test()
     _ -> {
       io.println("Unexpected argument(s)!")
       io.println("Usage:")
@@ -26,7 +26,7 @@ pub fn main() {
 }
 
 // gleeunit test functions end in `_test`
-pub fn glow_test() {
+pub fn galant_test() {
   repeat("lorem ipsum", 256)
   |> index_map(fn(index, text) {
     let colored_text =

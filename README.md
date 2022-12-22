@@ -10,7 +10,7 @@
 To install from Hex
 
 ```sh
-gleam add glow
+gleam add galant
 ```
 
 Documentation can be found at <https://hexdocs.pm/galant>.
