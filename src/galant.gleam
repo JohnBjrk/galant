@@ -1,6 +1,5 @@
-import gleam/base.{decode64}
 import gleam/bit_string.{to_string}
-import gleam/result.{then}
+import gleam/result
 import gleam/int
 import gleam/list.{fold, map, reverse, sized_chunk}
 import gleam/string_builder.{StringBuilder, append, new}
@@ -83,7 +82,7 @@ const rgb_bg_code = "[48;2;"
 /// The StyledTextPart type is used to represent all the different parts of a styled sequence.
 /// Normally this type is not expected to be used outside the library but it is exposed by all
 /// the styling functions since this is part of the return type.
-pub type StyledTextPart {
+pub opaque type StyledTextPart {
   Text(text: String)
   Black(text: String)
   BlackBg(text: String)
@@ -172,8 +171,8 @@ fn color_rgb_code(code: String, red: Int, green: Int, blue: Int) {
 
 fn esc() -> String {
   assert Ok(escape) =
-    decode64("Gw==")
-    |> then(bit_string.to_string)
+    <<0x1b>>
+    |> bit_string.to_string()
   escape
 }
 
