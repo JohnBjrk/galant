@@ -79,10 +79,8 @@ const rgb_code = "[38;2;"
 
 const rgb_bg_code = "[48;2;"
 
-/// The StyledTextPart type is used to represent all the different parts of a styled sequence.
-/// Normally this type is not expected to be used outside the library but it is exposed by all
-/// the styling functions since this is part of the return type.
-pub opaque type StyledTextPart {
+/// Styling used to build the StylingSequence
+pub opaque type Styling {
   Text(text: String)
   Black(text: String)
   BlackBg(text: String)
@@ -153,6 +151,9 @@ pub opaque type StyledTextPart {
   PlaceHolder
 }
 
+type StylingSequence =
+  List(Styling)
+
 fn color256_code(code: Int) {
   "[38;5;" <> int.to_string(code) <> "m"
 }
@@ -201,328 +202,349 @@ fn hex_to_rgb(color: Int) {
 }
 
 /// Start a new styled sequence
-pub fn open() {
+pub fn open() -> StylingSequence {
   []
 }
 
 // Style the text in black
-pub fn black(styled_text: List(StyledTextPart), text: String) {
+pub fn black(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Black(text), ..styled_text]
 }
 
 // Style the background of the text in black
-pub fn bg_black(styled_text: List(StyledTextPart), text: String) {
+pub fn bg_black(styled_text: StylingSequence, text: String) -> StylingSequence {
   [BlackBg(text), ..styled_text]
 }
 
 // Use black for subsequent pars of the styling sequence
-pub fn start_black(styled_text: List(StyledTextPart)) {
+pub fn start_black(styled_text: StylingSequence) -> StylingSequence {
   [StartBlack, ..styled_text]
 }
 
-pub fn start_bg_black(styled_text: List(StyledTextPart)) {
+pub fn start_bg_black(styled_text: StylingSequence) -> StylingSequence {
   [StartBlackBg, ..styled_text]
 }
 
-pub fn red(styled_text: List(StyledTextPart), text: String) {
+pub fn red(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Red(text), ..styled_text]
 }
 
-pub fn bg_red(styled_text: List(StyledTextPart), text: String) {
+pub fn bg_red(styled_text: StylingSequence, text: String) -> StylingSequence {
   [RedBg(text), ..styled_text]
 }
 
-pub fn start_red(styled_text: List(StyledTextPart)) {
+pub fn start_red(styled_text: StylingSequence) -> StylingSequence {
   [StartRed, ..styled_text]
 }
 
-pub fn start_bg_red(styled_text: List(StyledTextPart)) {
+pub fn start_bg_red(styled_text: StylingSequence) -> StylingSequence {
   [StartRedBg, ..styled_text]
 }
 
-pub fn yellow(styled_text: List(StyledTextPart), text: String) {
+pub fn yellow(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Yellow(text), ..styled_text]
 }
 
-pub fn bg_yellow(styled_text: List(StyledTextPart), text: String) {
+pub fn bg_yellow(styled_text: StylingSequence, text: String) -> StylingSequence {
   [YellowBg(text), ..styled_text]
 }
 
-pub fn start_yellow(styled_text: List(StyledTextPart)) {
+pub fn start_yellow(styled_text: StylingSequence) -> StylingSequence {
   [StartYellow, ..styled_text]
 }
 
-pub fn start_bg_yellow(styled_text: List(StyledTextPart)) {
+pub fn start_bg_yellow(styled_text: StylingSequence) -> StylingSequence {
   [StartYellowBg, ..styled_text]
 }
 
-pub fn magenta(styled_text: List(StyledTextPart), text: String) {
+pub fn magenta(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Magenta(text), ..styled_text]
 }
 
-pub fn bg_magenta(styled_text: List(StyledTextPart), text: String) {
+pub fn bg_magenta(styled_text: StylingSequence, text: String) -> StylingSequence {
   [MagentaBg(text), ..styled_text]
 }
 
-pub fn start_magenta(styled_text: List(StyledTextPart)) {
+pub fn start_magenta(styled_text: StylingSequence) -> StylingSequence {
   [StartMagenta, ..styled_text]
 }
 
-pub fn start_bg_magenta(styled_text: List(StyledTextPart)) {
+pub fn start_bg_magenta(styled_text: StylingSequence) -> StylingSequence {
   [StartMagentaBg, ..styled_text]
 }
 
-pub fn cyan(styled_text: List(StyledTextPart), text: String) {
+pub fn cyan(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Cyan(text), ..styled_text]
 }
 
-pub fn bg_cyan(styled_text: List(StyledTextPart), text: String) {
+pub fn bg_cyan(styled_text: StylingSequence, text: String) -> StylingSequence {
   [CyanBg(text), ..styled_text]
 }
 
-pub fn start_cyan(styled_text: List(StyledTextPart)) {
+pub fn start_cyan(styled_text: StylingSequence) -> StylingSequence {
   [StartCyan, ..styled_text]
 }
 
-pub fn start_bg_cyan(styled_text: List(StyledTextPart)) {
+pub fn start_bg_cyan(styled_text: StylingSequence) -> StylingSequence {
   [StartCyanBg, ..styled_text]
 }
 
-pub fn white(styled_text: List(StyledTextPart), text: String) {
+pub fn white(styled_text: StylingSequence, text: String) -> StylingSequence {
   [White(text), ..styled_text]
 }
 
-pub fn bg_white(styled_text: List(StyledTextPart), text: String) {
+pub fn bg_white(styled_text: StylingSequence, text: String) -> StylingSequence {
   [WhiteBg(text), ..styled_text]
 }
 
-pub fn start_white(styled_text: List(StyledTextPart)) {
+pub fn start_white(styled_text: StylingSequence) -> StylingSequence {
   [StartWhite, ..styled_text]
 }
 
-pub fn start_bg_white(styled_text: List(StyledTextPart)) {
+pub fn start_bg_white(styled_text: StylingSequence) -> StylingSequence {
   [StartWhiteBg, ..styled_text]
 }
 
-pub fn default(styled_text: List(StyledTextPart), text: String) {
+pub fn default(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Default(text), ..styled_text]
 }
 
-pub fn bg_default(styled_text: List(StyledTextPart), text: String) {
+pub fn bg_default(styled_text: StylingSequence, text: String) -> StylingSequence {
   [DefaultBg(text), ..styled_text]
 }
 
-pub fn blue(styled_text: List(StyledTextPart), text: String) {
+pub fn blue(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Blue(text), ..styled_text]
 }
 
-pub fn bg_blue(styled_text: List(StyledTextPart), text: String) {
+pub fn bg_blue(styled_text: StylingSequence, text: String) -> StylingSequence {
   [BlueBg(text), ..styled_text]
 }
 
-pub fn start_blue(styled_text: List(StyledTextPart)) {
+pub fn start_blue(styled_text: StylingSequence) -> StylingSequence {
   [StartBlue, ..styled_text]
 }
 
-pub fn start_bg_blue(styled_text: List(StyledTextPart)) {
+pub fn start_bg_blue(styled_text: StylingSequence) -> StylingSequence {
   [StartBlueBg, ..styled_text]
 }
 
-pub fn green(styled_text: List(StyledTextPart), text: String) {
+pub fn green(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Green(text), ..styled_text]
 }
 
-pub fn bg_green(styled_text: List(StyledTextPart), text: String) {
+pub fn bg_green(styled_text: StylingSequence, text: String) -> StylingSequence {
   [GreenBg(text), ..styled_text]
 }
 
-pub fn start_green(styled_text: List(StyledTextPart)) {
+pub fn start_green(styled_text: StylingSequence) -> StylingSequence {
   [StartGreen, ..styled_text]
 }
 
-pub fn start_bg_green(styled_text: List(StyledTextPart)) {
+pub fn start_bg_green(styled_text: StylingSequence) -> StylingSequence {
   [StartGreenBg, ..styled_text]
 }
 
-pub fn stop_color(styled_text: List(StyledTextPart)) {
+pub fn stop_color(styled_text: StylingSequence) -> StylingSequence {
   [StopColor, ..styled_text]
 }
 
-pub fn stop_bg_color(styled_text: List(StyledTextPart)) {
+pub fn stop_bg_color(styled_text: StylingSequence) -> StylingSequence {
   [StopBgColor, ..styled_text]
 }
 
-pub fn color_256(styled_text: List(StyledTextPart), text: String, color: Int) {
+pub fn color_256(
+  styled_text: StylingSequence,
+  text: String,
+  color: Int,
+) -> StylingSequence {
   [Color256(text, color), ..styled_text]
 }
 
 pub fn color_rgb(
-  styled_text: List(StyledTextPart),
+  styled_text: StylingSequence,
   text: String,
   red: Int,
   green: Int,
   blue: Int,
-) {
+) -> StylingSequence {
   [ColorRGB(text, red, green, blue), ..styled_text]
 }
 
 pub fn color_bg_rgb(
-  styled_text: List(StyledTextPart),
+  styled_text: StylingSequence,
   text: String,
   red: Int,
   green: Int,
   blue: Int,
-) {
+) -> StylingSequence {
   [ColorBgRGB(text, red, green, blue), ..styled_text]
 }
 
 pub fn start_color_rgb(
-  styled_text: List(StyledTextPart),
+  styled_text: StylingSequence,
   red: Int,
   green: Int,
   blue: Int,
-) {
+) -> StylingSequence {
   [StartColorRGB(red, green, blue), ..styled_text]
 }
 
 pub fn start_bg_color_rgb(
-  styled_text: List(StyledTextPart),
+  styled_text: StylingSequence,
   red: Int,
   green: Int,
   blue: Int,
-) {
+) -> StylingSequence {
   [StartColorBgRGB(red, green, blue), ..styled_text]
 }
 
-pub fn color_hex(styled_text: List(StyledTextPart), text: String, color: Int) {
+pub fn color_hex(
+  styled_text: StylingSequence,
+  text: String,
+  color: Int,
+) -> StylingSequence {
   let #(red, green, blue) = hex_to_rgb(color)
   [ColorRGB(text, red, green, blue), ..styled_text]
 }
 
-pub fn color_bg_hex(styled_text: List(StyledTextPart), text: String, color: Int) {
+pub fn color_bg_hex(
+  styled_text: StylingSequence,
+  text: String,
+  color: Int,
+) -> StylingSequence {
   let #(red, green, blue) = hex_to_rgb(color)
   [ColorBgRGB(text, red, green, blue), ..styled_text]
 }
 
-pub fn start_color_hex(styled_text: List(StyledTextPart), color: Int) {
+pub fn start_color_hex(
+  styled_text: StylingSequence,
+  color: Int,
+) -> StylingSequence {
   let #(red, green, blue) = hex_to_rgb(color)
   [StartColorRGB(red, green, blue), ..styled_text]
 }
 
-pub fn start_bg_color_hex(styled_text: List(StyledTextPart), color: Int) {
+pub fn start_bg_color_hex(
+  styled_text: StylingSequence,
+  color: Int,
+) -> StylingSequence {
   let #(red, green, blue) = hex_to_rgb(color)
   [StartColorBgRGB(red, green, blue), ..styled_text]
 }
 
-pub fn text(styled_text: List(StyledTextPart), text: String) {
+pub fn text(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Text(text), ..styled_text]
 }
 
-pub fn placeholder(styled_text: List(StyledTextPart)) {
+pub fn placeholder(styled_text: StylingSequence) -> StylingSequence {
   [PlaceHolder, ..styled_text]
 }
 
-pub fn bold(styled_text: List(StyledTextPart), text: String) {
+pub fn bold(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Bold(text), ..styled_text]
 }
 
-pub fn start_bold(styled_text: List(StyledTextPart)) {
+pub fn start_bold(styled_text: StylingSequence) -> StylingSequence {
   [StartBold, ..styled_text]
 }
 
-pub fn end_bold(styled_text: List(StyledTextPart)) {
+pub fn end_bold(styled_text: StylingSequence) -> StylingSequence {
   [EndBold, ..styled_text]
 }
 
-pub fn dim(styled_text: List(StyledTextPart), text: String) {
+pub fn dim(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Dim(text), ..styled_text]
 }
 
-pub fn start_dim(styled_text: List(StyledTextPart)) {
+pub fn start_dim(styled_text: StylingSequence) -> StylingSequence {
   [StartDim, ..styled_text]
 }
 
-pub fn end_dim(styled_text: List(StyledTextPart)) {
+pub fn end_dim(styled_text: StylingSequence) -> StylingSequence {
   [EndDim, ..styled_text]
 }
 
-pub fn italic(styled_text: List(StyledTextPart), text: String) {
+pub fn italic(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Italic(text), ..styled_text]
 }
 
-pub fn start_italic(styled_text: List(StyledTextPart)) {
+pub fn start_italic(styled_text: StylingSequence) -> StylingSequence {
   [StartItalic, ..styled_text]
 }
 
-pub fn end_italic(styled_text: List(StyledTextPart)) {
+pub fn end_italic(styled_text: StylingSequence) -> StylingSequence {
   [EndItalic, ..styled_text]
 }
 
-pub fn underline(styled_text: List(StyledTextPart), text: String) {
+pub fn underline(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Underline(text), ..styled_text]
 }
 
-pub fn start_underline(styled_text: List(StyledTextPart)) {
+pub fn start_underline(styled_text: StylingSequence) -> StylingSequence {
   [StartUnderline, ..styled_text]
 }
 
-pub fn end_underline(styled_text: List(StyledTextPart)) {
+pub fn end_underline(styled_text: StylingSequence) -> StylingSequence {
   [EndUnderline, ..styled_text]
 }
 
-pub fn blinking(styled_text: List(StyledTextPart), text: String) {
+pub fn blinking(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Blinking(text), ..styled_text]
 }
 
-pub fn start_blinking(styled_text: List(StyledTextPart)) {
+pub fn start_blinking(styled_text: StylingSequence) -> StylingSequence {
   [StartBlinking, ..styled_text]
 }
 
-pub fn end_blinking(styled_text: List(StyledTextPart)) {
+pub fn end_blinking(styled_text: StylingSequence) -> StylingSequence {
   [EndBlinking, ..styled_text]
 }
 
-pub fn inverse(styled_text: List(StyledTextPart), text: String) {
+pub fn inverse(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Reverse(text), ..styled_text]
 }
 
-pub fn start_inverse(styled_text: List(StyledTextPart)) {
+pub fn start_inverse(styled_text: StylingSequence) -> StylingSequence {
   [StartReverse, ..styled_text]
 }
 
-pub fn end_inverse(styled_text: List(StyledTextPart)) {
+pub fn end_inverse(styled_text: StylingSequence) -> StylingSequence {
   [EndReverse, ..styled_text]
 }
 
-pub fn hidden(styled_text: List(StyledTextPart), text: String) {
+pub fn hidden(styled_text: StylingSequence, text: String) -> StylingSequence {
   [Hidden(text), ..styled_text]
 }
 
-pub fn start_hidden(styled_text: List(StyledTextPart)) {
+pub fn start_hidden(styled_text: StylingSequence) -> StylingSequence {
   [StartHidden, ..styled_text]
 }
 
-pub fn end_hidden(styled_text: List(StyledTextPart)) {
+pub fn end_hidden(styled_text: StylingSequence) -> StylingSequence {
   [EndHidden, ..styled_text]
 }
 
-pub fn strikethrough(styled_text: List(StyledTextPart), text: String) {
+pub fn strikethrough(
+  styled_text: StylingSequence,
+  text: String,
+) -> StylingSequence {
   [Strikethrough(text), ..styled_text]
 }
 
-pub fn start_strikethrough(styled_text: List(StyledTextPart)) {
+pub fn start_strikethrough(styled_text: StylingSequence) -> StylingSequence {
   [StartStrikethrough, ..styled_text]
 }
 
-pub fn end_strikethrough(styled_text: List(StyledTextPart)) {
+pub fn end_strikethrough(styled_text: StylingSequence) -> StylingSequence {
   [EndStrikethrough, ..styled_text]
 }
 
-pub fn reset(styled_text: List(StyledTextPart)) {
+pub fn reset(styled_text: StylingSequence) -> StylingSequence {
   [Reset, ..styled_text]
 }
 
-pub fn to_string(styled_text: List(StyledTextPart)) {
+pub fn to_string(styled_text: StylingSequence) -> String {
   let parts =
     styled_text
     |> reset()
@@ -747,8 +769,10 @@ pub fn to_string(styled_text: List(StyledTextPart)) {
   |> string_builder.to_string()
 }
 
-pub fn save(this_styled_text: List(StyledTextPart)) {
-  fn(styled_text: List(StyledTextPart), text: String) {
+pub fn save(
+  this_styled_text: StylingSequence,
+) -> fn(StylingSequence, String) -> StylingSequence {
+  fn(styled_text: StylingSequence, text: String) {
     this_styled_text
     |> map(fn(part) {
       case part {
@@ -760,7 +784,9 @@ pub fn save(this_styled_text: List(StyledTextPart)) {
   }
 }
 
-pub fn to_string_styler(this_styled_text: List(StyledTextPart)) {
+pub fn to_string_styler(
+  this_styled_text: StylingSequence,
+) -> fn(String) -> String {
   fn(text: String) {
     this_styled_text
     |> map(fn(part) {
